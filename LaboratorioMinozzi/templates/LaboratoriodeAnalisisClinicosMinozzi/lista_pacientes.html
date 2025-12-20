@@ -1,46 +1,58 @@
 {% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
 {% load static %}
 
-{% block title %}Lista de Pacientes | Laboratorio Minozzi{% endblock %}
+{% block title %}Gestión de Pacientes - Laboratorio Minozzi{% endblock %}
 
 {% block content %}
-<div class="container py-4">
-    <h2 class="text-primary fw-bold mb-4">Pacientes Registrados</h2>
-    <div class="input-group mb-3">
-        <span class="input-group-text"><span class="material-icons">search</span></span>
-        <input type="text" id="busquedaPaciente" class="form-control" placeholder="Buscar por nombre, apellido o DNI...">
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold">Gestión de Pacientes</h2>
+        <button type="button" class="btn btn-success d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalRegistro">
+            <span class="material-icons me-2">person_add</span> Registrar Nuevo Paciente
+        </button>
     </div>
-    <div class="table-responsive">
-        <table class="table table-hover align-middle shadow-sm rounded overflow-hidden">
-            <thead class="bg-primary text-white">
+
+    <div class="card shadow-sm mb-4 border-0">
+        <div class="card-body bg-light">
+            <h5 class="fw-bold mb-3">Buscar Historia Clínica</h5>
+            <div class="input-group">
+                <span class="input-group-text bg-white"><span class="material-icons text-muted">search</span></span>
+                <input type="text" id="busquedaDNI" class="form-control" placeholder="Ingrese DNI para ver resultados del paciente...">
+                <button class="btn btn-primary" onclick="buscarHistoria()">Ver Resultados</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle bg-white mb-0">
+            <thead class="table-primary">
                 <tr>
-                    <th>Paciente</th>
+                    <th>Nombre y Apellido</th>
                     <th>DNI</th>
                     <th>Contacto</th>
-                    <th>F. Nacimiento</th>
-                    <th class="text-center">Acciones</th>
+                    <th class="text-center">Detalles</th>
                 </tr>
             </thead>
             <tbody id="tablaPacientes">
-                {% for paciente in pacientes %}
+                {% for p in pacientes %}
                 <tr>
-                    <td>
-                        <div class="fw-bold">{{ paciente.nombre }} {{ paciente.apellido }}</div>
-                        <small class="text-muted">Registro: {{ paciente.fecha_registro|date:"d/m/Y" }}</small>
-                    </td>
-                    <td>{{ paciente.DNI }}</td>
-                    <td>
-                        <div><span class="material-icons" style="font-size:16px;">email</span> {{ paciente.email }}</div>
-                        <div><span class="material-icons" style="font-size:16px;">phone</span> {{ paciente.telefono }}</div>
-                    </td>
-                    <td>{{ paciente.fecha_nacimiento|date:"d/m/Y" }}</td>
+                    <td><strong>{{ p.nombre }} {{ p.apellido }}</strong></td>
+                    <td>{{ p.DNI }}</td>
+                    <td>{{ p.email }}</td>
                     <td class="text-center">
-                        <a href="{% url 'detalle_paciente' paciente.id %}" class="btn btn-sm btn-outline-primary">Ver Ficha</a>
+                        <button class="btn btn-sm btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#detalle{{ p.DNI }}">
+                            Ver más
+                        </button>
                     </td>
                 </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5" class="text-center py-4 text-muted">No hay pacientes registrados aún.</td>
+                <tr class="collapse" id="detalle{{ p.DNI }}">
+                    <td colspan="4" class="bg-light p-3">
+                        <div class="row">
+                            <div class="col-md-4"><strong>Teléfono:</strong> {{ p.telefono }}</div>
+                            <div class="col-md-4"><strong>Fecha Nacimiento:</strong> {{ p.fecha_nacimiento|date:"d/m/Y" }}</div>
+                            <div class="col-md-4"><strong>Fecha de Registro:</strong> {{ p.fecha_registro|date:"d/m/Y" }}</div>
+                        </div>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -48,14 +60,61 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalRegistro" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Registrar Nuevo Paciente</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-target="#modalRegistro" data-bs-toggle="modal"></button>
+            </div>
+            <form action="{% url 'registrar_paciente' %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" name="nombre" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Apellido</label>
+                            <input type="text" name="apellido" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">DNI</label>
+                            <input type="text" name="DNI" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" name="telefono" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" name="fecha_nacimiento" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Paciente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
-    document.getElementById('busquedaPaciente').addEventListener('keyup', function() {
-        let filtro = this.value.toLowerCase();
-        let filas = document.querySelectorAll('#tablaPacientes tr');
-        filas.forEach(fila => {
-            let textoFila = fila.innerText.toLowerCase();
-            fila.style.display = textoFila.includes(filtro) ? '' : 'none';
-        });
-    });
+    // Función para redirigir a la historia clínica según el DNI ingresado
+    function buscarHistoria() {
+        const dni = document.getElementById('busquedaDNI').value;
+        if(dni) {
+            window.location.href = "{% url 'historia_clinica' %}?dni=" + dni;
+        } else {
+            alert("Por favor ingrese un DNI");
+        }
+    }
 </script>
 {% endblock %}
