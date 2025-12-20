@@ -17,3 +17,6 @@ Para evaluar el funcionamiento del sistema, se recomienda seguir estos pasos:
 - Búsqueda en BD:
     - Regrese a la sección de Pacientes.
     - Utilice la barra de búsqueda ingresando el DNI del paciente registrado para filtrar la tabla y acceder a sus detalles.
+-Ingreso a Admin:
+    - Usuario: admin
+    - Contraseña: 1234567A.

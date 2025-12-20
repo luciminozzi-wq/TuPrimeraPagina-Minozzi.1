@@ -4,55 +4,90 @@
 {% block title %}Inicio | Laboratorio Minozzi{% endblock %}
 
 {% block content %}
+<style>
+    /* Estilos personalizados para potenciar Bootstrap 5 */
+    .hero {
+        background: linear-gradient(45deg, #0056b3 0%, #007bff 100%);
+        padding: 100px 0;
+    }
+    .card-speciality {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-speciality:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    .team-img {
+        border: 5px solid #fff;
+        transition: all 0.3s ease;
+    }
+    .team-img:hover {
+        border-color: #cfe2ff;
+    }
+    .contact-icon {
+        color: #007bff;
+        font-size: 1.5rem;
+    }
+    iframe {
+        border-radius: 10px;
+        border: 2px solid #dee2e6;
+    }
+</style>
+
 <div class="container-fluid p-0">
-    <div class="hero bg-primary text-white text-center py-5">
+    <div class="hero text-white text-center shadow-sm">
         <div class="container">
-            <h1 class="display-4 fw-bold mb-3">Bienvenido al Laboratorio Minozzi</h1>
-            <p class="lead">Comprometidos con la precisión y el cuidado de tu salud. Más de 30 años de experiencia.</p>
-            <a href="#about" class="btn btn-light btn-lg mt-3">Conócenos</a>
+            <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown">Bienvenido al Laboratorio Minozzi</h1>
+            <p class="lead fs-4 mb-4">Comprometidos con la precisión y el cuidado de tu salud. Más de 30 años de experiencia.</p>
+            <a href="#about" class="btn btn-light btn-lg rounded-pill px-5 shadow-sm fw-bold text-primary">Conócenos</a>
         </div>
     </div>
 
     <section id="about" class="container py-5">
-        <div class="row align-items-center">
+        <div class="row align-items-center g-5">
             <div class="col-md-6">
-                <img src="{% static 'img/lab_interior.jpg' %}" class="img-fluid rounded shadow" alt="Interior del laboratorio">
+                <div class="position-relative">
+                    <img src="{% static 'img/lab_interior.jpg' %}" class="img-fluid rounded-4 shadow-lg" alt="Interior del laboratorio">
+                    <div class="position-absolute bottom-0 end-0 bg-white p-2 m-3 rounded-3 shadow-sm d-none d-lg-block">
+                        <small class="text-primary fw-bold">Tecnología de Punta</small>
+                    </div>
+                </div>
             </div>
             <div class="col-md-6 mt-4 mt-md-0">
-                <h2 class="text-primary fw-bold mb-3">Sobre Nuestro Laboratorio</h2>
-                <p>En Laboratorio Minozzi, combinamos tecnología de vanguardia con un equipo de profesionales altamente calificados para ofrecer diagnósticos precisos y confiables. Nuestra misión es brindar un servicio de excelencia, priorizando la salud y el bienestar de nuestros pacientes.</p>
-                <p>Estamos equipados con la última tecnología para realizar una amplia gama de análisis clínicos, garantizando resultados rápidos y exactos para el apoyo en la toma de decisiones médicas.</p>
+                <h2 class="text-primary fw-bold mb-4 border-bottom pb-2">Sobre Nuestro Laboratorio</h2>
+                <p class="lead text-secondary">En Laboratorio Minozzi, combinamos tecnología de vanguardia con un equipo de profesionales altamente calificados para ofrecer diagnósticos precisos y confiables.</p>
+                <p class="lead text-secondary">Nuestra misión es brindar un servicio de excelencia, priorizando la salud y el bienestar de nuestros pacientes. Estamos equipados con la última tecnología para realizar una amplia gama de análisis clínicos, garantizando resultados rápidos y exactos para el apoyo en la toma de decisiones médicas.</p>
             </div>
         </div>
     </section>
 
-    <section class="bg-light py-5">
+    <section class="bg-light py-5 border-top border-bottom">
         <div class="container">
-            <h2 class="text-center text-primary fw-bold mb-5">Nuestras Especialidades</h2>
+            <h2 class="text-center text-primary fw-bold mb-5 mt-3">Nuestras Especialidades</h2>
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="card h-100 shadow-sm text-center border-0">
-                        <div class="card-body">
-                            <img src="{% static 'img/speciality_hematology.jpg' %}" class="img-fluid rounded mb-3" alt="Hematología">
-                            <h5 class="card-title fw-bold">Hematología Completa</h5>
+                    <div class="card card-speciality h-100 shadow-sm text-center border-0 rounded-4">
+                        <div class="card-body p-4">
+                            <img src="{% static 'img/speciality_hematology.jpg' %}" class="img-fluid rounded-3 mb-4 shadow-sm" alt="Hematología">
+                            <h5 class="card-title fw-bold text-dark">Hematología Completa</h5>
                             <p class="card-text text-muted">Análisis detallados para la detección de enfermedades de la sangre.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card h-100 shadow-sm text-center border-0">
-                        <div class="card-body">
-                            <img src="{% static 'img/speciality_biochemistry.jpg' %}" class="img-fluid rounded mb-3" alt="Bioquímica Clínica">
-                            <h5 class="card-title fw-bold">Bioquímica Clínica</h5>
+                    <div class="card card-speciality h-100 shadow-sm text-center border-0 rounded-4">
+                        <div class="card-body p-4">
+                            <img src="{% static 'img/speciality_biochemistry.jpg' %}" class="img-fluid rounded-3 mb-4 shadow-sm" alt="Bioquímica Clínica">
+                            <h5 class="card-title fw-bold text-dark">Bioquímica Clínica</h5>
                             <p class="card-text text-muted">Estudios de glucosa, colesterol, función hepática y renal.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card h-100 shadow-sm text-center border-0">
-                        <div class="card-body">
-                            <img src="{% static 'img/speciality_immunology.jpg' %}" class="img-fluid rounded mb-3" alt="Inmunología">
-                            <h5 class="card-title fw-bold">Inmunología y Serología</h5>
+                    <div class="card card-speciality h-100 shadow-sm text-center border-0 rounded-4">
+                        <div class="card-body p-4">
+                            <img src="{% static 'img/speciality_immunology.jpg' %}" class="img-fluid rounded-3 mb-4 shadow-sm" alt="Inmunología">
+                            <h5 class="card-title fw-bold text-dark">Inmunología y Serología</h5>
                             <p class="card-text text-muted">Detección de anticuerpos, marcadores tumorales y enfermedades infecciosas.</p>
                         </div>
                     </div>
@@ -63,18 +98,22 @@
 
     <section class="container py-5">
         <h2 class="text-center text-primary fw-bold mb-5">Nuestro Equipo de Profesionales</h2>
-        <div class="row justify-content-center g-4">
+        <div class="row justify-content-center g-5">
             <div class="col-md-4 text-center">
-                <img src="{% static 'img/bioquimico_lucila.jpg' %}" class="img-fluid rounded-circle shadow mb-3" style="width: 180px; height: 180px; object-fit: cover;" alt="Dra. Lucila Minozzi">
-                <h5 class="fw-bold">Dra. Lucila Minozzi</h5>
-                <p class="text-primary mb-1">Bioquímica Directora</p>
-                <small class="text-muted">Especialista en Diagnóstico Molecular.</small>
+                <div class="mb-3 d-inline-block">
+                    <img src="{% static 'img/bioquimico_lucila.jpg' %}" class="img-fluid rounded-circle shadow team-img" style="width: 200px; height: 200px; object-fit: cover;" alt="Dra. Lucila Minozzi">
+                </div>
+                <h5 class="fw-bold fs-4">Dra. Lucila Minozzi</h5>
+                <p class="badge bg-primary rounded-pill px-3 mb-2">Bioquímica Directora</p>
+                <p><small class="text-muted d-block">Especialista en Bioquímica Clínica área Inmunología.</small></p>
             </div>
             <div class="col-md-4 text-center">
-                <img src="{% static 'img/bioquimico_juan.jpg' %}" class="img-fluid rounded-circle shadow mb-3" style="width: 180px; height: 180px; object-fit: cover;" alt="Dr. Juan Pérez">
-                <h5 class="fw-bold">Dr. Juan Pérez</h5>
-                <p class="text-primary mb-1">Jefe de Área Clínica</p>
-                <small class="text-muted">Especialista en Microbiología.</small>
+                <div class="mb-3 d-inline-block">
+                    <img src="{% static 'img/bioquimico_juan.jpg' %}" class="img-fluid rounded-circle shadow team-img" style="width: 200px; height: 200px; object-fit: cover;" alt="Dr. Juan Pérez">
+                </div>
+                <h5 class="fw-bold fs-4">Dr. Juan Pérez</h5>
+                <p class="badge bg-primary rounded-pill px-3 mb-2">Jefe de Área Clínica</p>
+                <p><small class="text-muted d-block">Especialista en Microbiología.</small></p>
             </div>
         </div>
     </section>
@@ -83,18 +122,48 @@
         <div class="container">
             <h2 class="text-center text-primary fw-bold mb-5">Contáctanos</h2>
             <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card shadow-sm border-0">
-                        <div class="card-body p-4">
-                            <p class="text-center lead">Estamos para ayudarte. Envíanos tu consulta o visítanos.</p>
-                            <ul class="list-unstyled text-center lead mb-4">
-                                <li><span class="material-icons me-2 align-middle">location_on</span>Calle Falsa 123, Ciudad</li>
-                                <li><span class="material-icons me-2 align-middle">phone</span>(123) 456-7890</li>
-                                <li><span class="material-icons me-2 align-middle">email</span>info@labminozzi.com</li>
-                                <li><span class="material-icons me-2 align-middle">access_time</span>Lunes a Viernes: 8:00 - 18:00 hs</li>
-                            </ul>
-                            <div class="ratio ratio-16x9">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.9984920624024!2d-58.38155918476974!3d-34.60372248045934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac4b8f0d3b1%3A0x9a8b1a3e8b0a9f0!2sObelisco!5e0!3m2!1ses!2sar!4v1678912345678!5m2!1ses!2sar" allowfullscreen="" loading="lazy"></iframe>
+                <div class="col-md-10">
+                    <div class="card shadow border-0 rounded-4 overflow-hidden">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-lg-5 p-5 bg-white">
+                                    <h4 class="fw-bold mb-4 text-dark">Información de contacto</h4>
+                                    <ul class="list-unstyled mb-0">
+                                        <li class="mb-4 d-flex align-items-start">
+                                            <i class="material-icons contact-icon me-3">location_on</i>
+                                            <div>
+                                                <h6 class="fw-bold mb-0">Dirección</h6>
+                                                <p class="text-muted mb-0">Calle Falsa 123, Ciudad</p>
+                                            </div>
+                                        </li>
+                                        <li class="mb-4 d-flex align-items-start">
+                                            <i class="material-icons contact-icon me-3">phone</i>
+                                            <div>
+                                                <h6 class="fw-bold mb-0">Teléfono</h6>
+                                                <p class="text-muted mb-0">(123) 456-7890</p>
+                                            </div>
+                                        </li>
+                                        <li class="mb-4 d-flex align-items-start">
+                                            <i class="material-icons contact-icon me-3">email</i>
+                                            <div>
+                                                <h6 class="fw-bold mb-0">Email</h6>
+                                                <p class="text-muted mb-0">info@labminozzi.com</p>
+                                            </div>
+                                        </li>
+                                        <li class="d-flex align-items-start">
+                                            <i class="material-icons contact-icon me-3">access_time</i>
+                                            <div>
+                                                <h6 class="fw-bold mb-0">Atención</h6>
+                                                <p class="text-muted mb-0">Lun a Vie: 8:00 - 18:00 hs</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-7 p-2">
+                                    <div class="ratio ratio-16x9 h-100 min-vh-40">
+                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d105073.44367069115!2d-58.50333817551528!3d-34.61566245107005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcca3b4ef90cbd%3A0xa0b3812e88e442!2sBuenos%20Aires%2C%20Argentina!5e0!3m2!1ses-419!2sar!4v1700000000000!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" style="border-radius: 8px;"></iframe>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
