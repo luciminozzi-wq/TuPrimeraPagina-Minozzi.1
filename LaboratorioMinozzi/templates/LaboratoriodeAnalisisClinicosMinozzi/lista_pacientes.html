@@ -1,0 +1,61 @@
+{% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
+{% load static %}
+
+{% block title %}Lista de Pacientes | Laboratorio Minozzi{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="text-primary fw-bold mb-4">Pacientes Registrados</h2>
+    <div class="input-group mb-3">
+        <span class="input-group-text"><span class="material-icons">search</span></span>
+        <input type="text" id="busquedaPaciente" class="form-control" placeholder="Buscar por nombre, apellido o DNI...">
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle shadow-sm rounded overflow-hidden">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>Paciente</th>
+                    <th>DNI</th>
+                    <th>Contacto</th>
+                    <th>F. Nacimiento</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaPacientes">
+                {% for paciente in pacientes %}
+                <tr>
+                    <td>
+                        <div class="fw-bold">{{ paciente.nombre }} {{ paciente.apellido }}</div>
+                        <small class="text-muted">Registro: {{ paciente.fecha_registro|date:"d/m/Y" }}</small>
+                    </td>
+                    <td>{{ paciente.DNI }}</td>
+                    <td>
+                        <div><span class="material-icons" style="font-size:16px;">email</span> {{ paciente.email }}</div>
+                        <div><span class="material-icons" style="font-size:16px;">phone</span> {{ paciente.telefono }}</div>
+                    </td>
+                    <td>{{ paciente.fecha_nacimiento|date:"d/m/Y" }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'detalle_paciente' paciente.id %}" class="btn btn-sm btn-outline-primary">Ver Ficha</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-4 text-muted">No hay pacientes registrados aún.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.getElementById('busquedaPaciente').addEventListener('keyup', function() {
+        let filtro = this.value.toLowerCase();
+        let filas = document.querySelectorAll('#tablaPacientes tr');
+        filas.forEach(fila => {
+            let textoFila = fila.innerText.toLowerCase();
+            fila.style.display = textoFila.includes(filtro) ? '' : 'none';
+        });
+    });
+</script>
+{% endblock %}

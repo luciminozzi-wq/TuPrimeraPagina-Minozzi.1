@@ -1,32 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Resultados Disponibles</title>
-</head>
-<body>
-    <h1>Subir Resultado de Estudio</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="paciente">Paciente:</label>
-        <select id="paciente" name="paciente">|
-            {% for paciente in pacientes %}
-                <option value="{{ paciente.id }}">{{ paciente.nombre }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <label for="estudio">Estudio:</label>
-        <select id="estudio" name="estudio">
-            {% for estudio in estudios %}
-                <option value="{{ estudio.id }}">{{ estudio.nombre }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <label for="resultado">Resultado (Archivo):</label>
-        <input type="file" id="resultado" name="resultado" required>
-        <br><br>
-        <button type="submit">Subir Resultado</button>
-    </form>
-</body>
-</html>
+{% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
+{% load static %}
 
+{% block title %}Cargar Resultados | Laboratorio Minozzi{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0">Gestión de Resultados (PDF)</h4>
+                </div>
+                <div class="card-body p-4">
+                    <p class="text-muted text-center mb-4">Seleccione el paciente y el estudio para adjuntar el informe correspondiente.</p>
+                    
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Paciente</label>
+                            <select name="paciente" class="form-select" required>
+                                <option value="" selected disabled>Seleccione un paciente...</option>
+                                {% for p in pacientes %}
+                                <option value="{{ p.id }}">{{ p.apellido }}, {{ p.nombre }} (DNI: {{ p.DNI }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Tipo de Estudio</label>
+                            <select name="estudio" class="form-select" required>
+                                <option value="" selected disabled>Seleccione el estudio...</option>
+                                {% for e in estudios %}
+                                <option value="{{ e.id }}">{{ e.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Archivo de Resultado</label>
+                            <input type="file" name="resultado" class="form-control" accept="application/pdf" required>
+                            <div class="form-text">Adjunte únicamente archivos en formato PDF.</div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <span class="material-icons align-middle me-1">cloud_upload</span> Cargar al Sistema
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

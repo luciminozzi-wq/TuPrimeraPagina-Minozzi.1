@@ -1,19 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Laboratorio Minozzi</title>
-</head>
-<body>
-    <h1>Bienvenido al Laboratorio Minozzi</h1>
-    
-    <nav>
-        <ul>
-            <li><a href="{% url 'detalle_paciente' paciente_id=1 %}">Ver Lista de Pacientes</a></li>
-            <li><a href="{% url 'detalle_paciente' paciente_id=2 %}">Ver Lista de Pacientes</a></li>
-            <li><a href="{% url 'detalle_paciente' paciente_id=3 %}">Ver Lista de Pacientes</a></li>
-            <li><a href="{% url 'lista_estudios' %}">Ver Estudios Disponibles</a></li>
-            <li><a href="{% url 'subir_resultado' %}">Subir un Resultado (PDF)</a></li>
-        </ul>
-    </nav>
-</body>
+{% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
+{% load static %}
+
+{% block title %}Inicio | Laboratorio Minozzi{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-0">
+    <div class="hero bg-primary text-white text-center py-5">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-3">Bienvenido al Laboratorio Minozzi</h1>
+            <p class="lead">Comprometidos con la precisión y el cuidado de tu salud. Más de 30 años de experiencia.</p>
+            <a href="#about" class="btn btn-light btn-lg mt-3">Conócenos</a>
+        </div>
+    </div>
+
+    <section id="about" class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="{% static 'img/lab_interior.jpg' %}" class="img-fluid rounded shadow" alt="Interior del laboratorio">
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <h2 class="text-primary fw-bold mb-3">Sobre Nuestro Laboratorio</h2>
+                <p>En Laboratorio Minozzi, combinamos tecnología de vanguardia con un equipo de profesionales altamente calificados para ofrecer diagnósticos precisos y confiables. Nuestra misión es brindar un servicio de excelencia, priorizando la salud y el bienestar de nuestros pacientes.</p>
+                <p>Estamos equipados con la última tecnología para realizar una amplia gama de análisis clínicos, garantizando resultados rápidos y exactos para el apoyo en la toma de decisiones médicas.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light py-5">
+        <div class="container">
+            <h2 class="text-center text-primary fw-bold mb-5">Nuestras Especialidades</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm text-center border-0">
+                        <div class="card-body">
+                            <img src="{% static 'img/speciality_hematology.jpg' %}" class="img-fluid rounded mb-3" alt="Hematología">
+                            <h5 class="card-title fw-bold">Hematología Completa</h5>
+                            <p class="card-text text-muted">Análisis detallados para la detección de enfermedades de la sangre.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm text-center border-0">
+                        <div class="card-body">
+                            <img src="{% static 'img/speciality_biochemistry.jpg' %}" class="img-fluid rounded mb-3" alt="Bioquímica Clínica">
+                            <h5 class="card-title fw-bold">Bioquímica Clínica</h5>
+                            <p class="card-text text-muted">Estudios de glucosa, colesterol, función hepática y renal.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm text-center border-0">
+                        <div class="card-body">
+                            <img src="{% static 'img/speciality_immunology.jpg' %}" class="img-fluid rounded mb-3" alt="Inmunología">
+                            <h5 class="card-title fw-bold">Inmunología y Serología</h5>
+                            <p class="card-text text-muted">Detección de anticuerpos, marcadores tumorales y enfermedades infecciosas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container py-5">
+        <h2 class="text-center text-primary fw-bold mb-5">Nuestro Equipo de Profesionales</h2>
+        <div class="row justify-content-center g-4">
+            <div class="col-md-4 text-center">
+                <img src="{% static 'img/bioquimico_lucila.jpg' %}" class="img-fluid rounded-circle shadow mb-3" style="width: 180px; height: 180px; object-fit: cover;" alt="Dra. Lucila Minozzi">
+                <h5 class="fw-bold">Dra. Lucila Minozzi</h5>
+                <p class="text-primary mb-1">Bioquímica Directora</p>
+                <small class="text-muted">Especialista en Diagnóstico Molecular.</small>
+            </div>
+            <div class="col-md-4 text-center">
+                <img src="{% static 'img/bioquimico_juan.jpg' %}" class="img-fluid rounded-circle shadow mb-3" style="width: 180px; height: 180px; object-fit: cover;" alt="Dr. Juan Pérez">
+                <h5 class="fw-bold">Dr. Juan Pérez</h5>
+                <p class="text-primary mb-1">Jefe de Área Clínica</p>
+                <small class="text-muted">Especialista en Microbiología.</small>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="bg-light py-5">
+        <div class="container">
+            <h2 class="text-center text-primary fw-bold mb-5">Contáctanos</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+                            <p class="text-center lead">Estamos para ayudarte. Envíanos tu consulta o visítanos.</p>
+                            <ul class="list-unstyled text-center lead mb-4">
+                                <li><span class="material-icons me-2 align-middle">location_on</span>Calle Falsa 123, Ciudad</li>
+                                <li><span class="material-icons me-2 align-middle">phone</span>(123) 456-7890</li>
+                                <li><span class="material-icons me-2 align-middle">email</span>info@labminozzi.com</li>
+                                <li><span class="material-icons me-2 align-middle">access_time</span>Lunes a Viernes: 8:00 - 18:00 hs</li>
+                            </ul>
+                            <div class="ratio ratio-16x9">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.9984920624024!2d-58.38155918476974!3d-34.60372248045934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac4b8f0d3b1%3A0x9a8b1a3e8b0a9f0!2sObelisco!5e0!3m2!1ses!2sar!4v1678912345678!5m2!1ses!2sar" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+

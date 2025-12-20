@@ -39,3 +39,23 @@ def subir_resultado(request):
 def detalle_paciente(request, paciente_id):
     paciente = Pacientes.objects.get(id=paciente_id)
     return render(request, "LaboratoriodeAnalisisClinicosMinozzi/detalle_paciente.html", {"paciente": paciente})
+
+from django.shortcuts import render
+from .models import EstudiosDisponibles, Pacientes # Importa tus modelos
+
+def home(request):
+    
+    estudios = EstudiosDisponibles.objects.all()
+    pacientes = Pacientes.objects.all()
+    
+    
+    return render(request, "LaboratoriodeAnalisisClinicosMinozzi/index.html", {
+        "estudios": estudios,
+        "pacientes": pacientes
+    })
+
+def lista_pacientes(request):
+    pacientes = Pacientes.objects.all()
+    return render(request, "LaboratoriodeAnalisisClinicosMinozzi/lista_pacientes.html", {
+        "pacientes": pacientes
+    })

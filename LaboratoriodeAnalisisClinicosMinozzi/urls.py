@@ -24,3 +24,16 @@ urlpatterns = [
     path("subir_resultado/", include("LaboratorioMinozzi.urls")),
     path("lista_estudios/", include("LaboratorioMinozzi.urls")),
 ]
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings # Importa settings
+from django.conf.urls.static import static # Importa static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('LaboratorioMinozzi.urls')),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
