@@ -89,3 +89,25 @@ def historia_clinica(request):
 
 def subir_resultado(request):
     return render(request, "LaboratoriodeAnalisisClinicosMinozzi/subir_resultado.html")
+
+from .models import EstudiosDisponibles
+
+def registrar_estudio(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre_estudio')
+        descripcion = request.POST.get('descripcion')
+        precio = request.POST.get('precio')
+
+        try:
+            EstudiosDisponibles.objects.create(
+                nombre=nombre,
+                descripcion=descripcion,
+                precio=precio
+            )
+            messages.success(request, f"Estudio '{nombre}' agregado al catálogo.")
+        except Exception as e:
+            messages.error(request, f"Error al agregar estudio: {e}")
+            
+        return redirect('lista_estudios')
+    
+    return redirect('lista_estudios')
