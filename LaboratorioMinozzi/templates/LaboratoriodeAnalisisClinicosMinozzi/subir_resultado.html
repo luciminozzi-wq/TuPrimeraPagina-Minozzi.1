@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados Disponibles</title>
+</head>
+<body>
+    <h1>Subir Resultado de Estudio</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="paciente">Paciente:</label>
+        <select id="paciente" name="paciente">|
+            {% for paciente in pacientes %}
+                <option value="{{ paciente.id }}">{{ paciente.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="estudio">Estudio:</label>
+        <select id="estudio" name="estudio">
+            {% for estudio in estudios %}
+                <option value="{{ estudio.id }}">{{ estudio.nombre }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label for="resultado">Resultado (Archivo):</label>
+        <input type="file" id="resultado" name="resultado" required>
+        <br><br>
+        <button type="submit">Subir Resultado</button>
+    </form>
+</body>
+</html>
+

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title>Lista de Estudios</title>
+    </head>
+    <body>  
+        <h1>Estudios Disponibles</h1>
+        <ul>
+            {% for estudio in estudios %}
+                <li>{{ estudio.nombre }} - Precio: ${{ estudio.precio }}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

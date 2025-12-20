@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Laboratorio Minozzi</title>
+</head>
+<body>
+    <h1>Bienvenido al Laboratorio Minozzi</h1>
+    
+    <nav>
+        <ul>
+            <li><a href="{% url 'detalle_paciente' paciente_id=1 %}">Ver Lista de Pacientes</a></li>
+            <li><a href="{% url 'detalle_paciente' paciente_id=2 %}">Ver Lista de Pacientes</a></li>
+            <li><a href="{% url 'detalle_paciente' paciente_id=3 %}">Ver Lista de Pacientes</a></li>
+            <li><a href="{% url 'lista_estudios' %}">Ver Estudios Disponibles</a></li>
+            <li><a href="{% url 'subir_resultado' %}">Subir un Resultado (PDF)</a></li>
+        </ul>
+    </nav>
+</body>
