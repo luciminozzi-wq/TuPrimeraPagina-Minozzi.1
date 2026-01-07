@@ -1,62 +1,30 @@
-{% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
-{% load static %}
-
-{% block title %}Catálogo de Estudios | Laboratorio Minozzi{% endblock %}
+{% extends "LaboratoriodeAnalisisClinicosMinozzi/base.html" %}
 
 {% block content %}
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-5">
-        <h2 class="text-primary fw-bold mb-0">Catálogo de Análisis y Valores</h2>
-        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalEstudio">
-            <span class="material-icons align-middle">add_circle</span> Nuevo Análisis
-        </button>
-    </div>
+    <h2>Catálogo de Estudios</h2>
     
-    <div class="row g-4">
-        {% for e in estudios %}
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 border-0 shadow-sm card-hover">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                        <h5 class="card-title fw-bold text-primary mb-0">{{ e.nombre }}</h5>
-                        <span class="badge bg-success py-2 px-3 fs-6">$ {{ e.precio|floatformat:2 }}</span>
-                    </div>
-                    <p class="card-text text-muted small">{{ e.descripcion }}</p>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-</div>
-
-<div class="modal fade" id="modalEstudio" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">Configurar Nuevo Análisis</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="{% url 'registrar_estudio' %}" method="POST">
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Agregar Estudio</h4>
+            <form method="POST" action="{% url 'registrar_estudio' %}">
                 {% csrf_token %}
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Nombre del Estudio</label>
-                        <input type="text" name="nombre_estudio" class="form-control" placeholder="Ej: Hemograma Completo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Descripción / Requisitos</label>
-                        <textarea name="descripcion" class="form-control" rows="3" placeholder="Ej: Requiere 8hs de ayuno..."></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Precio ($)</label>
-                        <input type="number" step="0.01" name="precio" class="form-control" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar en Catálogo</button>
-                </div>
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success w-100">Guardar en Catálogo</button>
             </form>
+        </div>
+
+        <div class="col-md-8">
+            <h4>Estudios Disponibles</h4>
+            <div class="list-group">
+                {% for estudio in estudios %}
+                <div class="list-group-item">
+                    <h5 class="mb-1">{{ estudio.nombre }}</h5>
+                    <p class="mb-1">{{ estudio.descripcion }}</p>
+                    <small class="text-muted">Precio: ${{ estudio.precio }}</small>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>

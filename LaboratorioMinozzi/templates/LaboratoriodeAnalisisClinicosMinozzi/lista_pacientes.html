@@ -1,146 +1,49 @@
-{% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
-{% load static %}
-
-{% block title %}Gestión de Pacientes - Laboratorio Minozzi{% endblock %}
+{% extends "LaboratoriodeAnalisisClinicosMinozzi/base.html" %}
 
 {% block content %}
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary fw-bold">Gestión de Pacientes</h2>
-        <button type="button" class="btn btn-success d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalRegistro">
-            <span class="material-icons me-2">person_add</span> Registrar Nuevo Paciente
-        </button>
-    </div>
+    <h2>Gestión de Pacientes</h2>
+    
+    <form method="GET" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="dni" class="form-control" placeholder="Buscar por DNI..." value="{{ request.GET.dni }}">
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        </div>
+    </form>
 
-    <div class="card shadow-sm mb-4 border-0">
-        <div class="card-body bg-light">
-            <h5 class="fw-bold mb-3">Buscar Historia Clínica</h5>
-            <form action="{% url 'lista_pacientes' %}" method="GET" class="input-group">
-                <span class="input-group-text bg-white"><span class="material-icons text-muted">search</span></span>
-                <input type="text" name="dni" class="form-control" placeholder="Ingrese DNI para buscar..." value="{{ request.GET.dni }}">
-                <button type="submit" class="btn btn-primary">Ver Resultados</button>
-                {% if request.GET.dni %}
-                    <a href="{% url 'lista_pacientes' %}" class="btn btn-outline-secondary">Limpiar</a>
-                {% endif %}
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Registrar Nuevo</h4>
+            <form method="POST" action="{% url 'registrar_paciente' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary w-100">Registrar Paciente</button>
             </form>
         </div>
-    </div>
 
-    <div class="table-responsive shadow-sm rounded">
-        <table class="table table-hover align-middle bg-white mb-0">
-            <thead class="table-primary">
-                <tr>
-                    <th>Nombre y Apellido</th>
-                    <th>DNI</th>
-                    <th>Contacto</th>
-                    <th class="text-center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="tablaPacientes">
-                {% for p in pacientes %}
-                <tr>
-                    <td><strong>{{ p.nombre }} {{ p.apellido }}</strong></td>
-                    <td>{{ p.DNI }}</td>
-                    <td>{{ p.email }}</td>
-                    <td class="text-center">
-                        <a href="{% url 'detalle_paciente' p.id %}" class="btn btn-sm btn-info text-white">
-                            <span class="material-icons style='font-size: 16px; vertical-align: middle;'>history</span> Historia Clínica
-                        </a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4" class="text-center p-4">No se encontraron pacientes registrados.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="modal fade" id="modalRegistro" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title">Registrar Nuevo Paciente</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="{% url 'registrar_paciente' %}" method="POST">
-                {% csrf_token %}
-                <div class="modal-body">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Nombre</label>
-                            <input type="text" name="nombre" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Apellido</label>
-                            <input type="text" name="apellido" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">DNI</label>
-                            <input type="text" name="DNI" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label
-    fw-bold">Email</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label
-    fw-bold">Teléfono</label>
-                            <input type="text" name="telefono" class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Fecha de Nacimiento</label>
-                            <input type="date" name="fecha_nacimiento" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Registrar Paciente</button>
-                </div>
-            </form> 
+        <div class="col-md-8">
+            <h4>Listado</h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>DNI</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paciente in pacientes %}
+                    <tr>
+                        <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
+                        <td>{{ paciente.DNI }}</td>
+                        <td>
+                            <a href="{% url 'detalle_paciente' paciente.id %}" class="btn btn-sm btn-info">Ver Detalle</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-<script>
-    function filtrarPacientes() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("filtroPaciente");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("tablaPacientes");
-        tr = table.getElementsByTagName("tr");
-
-        for (i = 0; i < tr.length; i++) {
-            tdNombre = tr[i].getElementsByTagName("td")[0];
-            tdDNI = tr[i].getElementsByTagName("td")[1];
-            if (tdNombre || tdDNI) {
-                txtValueNombre = tdNombre.textContent || tdNombre.innerText;
-                txtValueDNI = tdDNI.textContent || tdDNI.innerText;
-                if (txtValueNombre.toUpperCase().indexOf(filter) > -1 || txtValueDNI.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }       
-        }
-    }
-</script>
-    .modal-header {
-        border-bottom: none;
-    }       
-</script>
-<style>
-    .btn-close {
-        background: none;
-        border: none;
-    }
-    .modal-footer {
-        border-top: none;
-    }
-</style>    
 {% endblock %}
-
-{% block extra_scripts %}

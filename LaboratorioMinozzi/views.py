@@ -1,27 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from LaboratorioMinozzi.models import EstudiosDisponibles, Pacientes, ResultadosdeEstudios
-
-# Importación de formularios
-# Ajusta '.forms' si tu archivo de formularios tiene otro nombre
-from .forms import (
-    PacienteForm, 
-    EstudioForm, 
-    ResultadoForm, 
-    historiaClinicaForm
-)
+from .forms import PacienteForm, EstudioForm, ResultadoForm, historiaClinicaForm
 
 def home(request):
     return render(request, "LaboratoriodeAnalisisClinicosMinozzi/index.html")
 
-
 def lista_pacientes(request):
     dni_buscado = request.GET.get('dni')
-    if dni_buscado:
-        pacientes = Pacientes.objects.filter(DNI__icontains=dni_buscado)
-    else:
-        pacientes = Pacientes.objects.all()
-
+    pacientes = Pacientes.objects.filter(DNI__icontains=dni_buscado) if dni_buscado else Pacientes.objects.all()
     form = PacienteForm()
     return render(request, "LaboratoriodeAnalisisClinicosMinozzi/lista_pacientes.html", {
         'pacientes': pacientes, 
@@ -34,7 +21,6 @@ def registrar_paciente(request):
         if form.is_valid():
             form.save() 
             messages.success(request, "Paciente registrado con éxito.")
-            return redirect('lista_pacientes')
     return redirect('lista_pacientes')
 
 def detalle_paciente(request, paciente_id):
@@ -44,7 +30,6 @@ def detalle_paciente(request, paciente_id):
         "paciente": paciente,
         "resultados": resultados
     })
-
 
 def lista_estudios(request):
     estudios = EstudiosDisponibles.objects.all()
@@ -70,7 +55,6 @@ def subir_resultado(request):
             return render(request, "LaboratoriodeAnalisisClinicosMinozzi/subir_resultado_exito.html")
     else:
         form = ResultadoForm()
-    
     return render(request, "LaboratoriodeAnalisisClinicosMinozzi/subir_resultado.html", {"form": form})
 
 def historia_clinica(request):
@@ -79,7 +63,7 @@ def historia_clinica(request):
         form = historiaClinicaForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Paciente guardado con éxito.")
+            messages.success(request, "Historial guardado con éxito.")
             return redirect('historia_clinica')
     else:
         form = historiaClinicaForm()

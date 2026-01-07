@@ -1,46 +1,21 @@
-{% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
-{% load static %}
-
-{% block title %}Cargar Resultados | Laboratorio Minozzi{% endblock %}
+{% extends "LaboratoriodeAnalisisClinicosMinozzi/base.html" %}
 
 {% block content %}
-<div class="container mt-4 mb-5">
+<div class="container mt-4">
     <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8">
-            <div class="card shadow border-0 rounded-3">
-                <div class="card-header bg-primary text-white text-center py-3">
-                    <h4 class="mb-0"><i class="material-icons align-middle me-2">biotech</i>Gestión de Resultados Clínicos</h4>
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h3 class="card-title mb-0">Subir Resultado de Estudio</h3>
                 </div>
-                <div class="card-body p-4">
-                    
+                <div class="card-body">
                     <form method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
-
-                        <div class="mb-4 p-3 bg-light rounded-3 border">
-                            <h6 class="text-primary fw-bold mb-3"><i class="material-icons align-middle fs-5">search</i> Localizar Paciente</h6>
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label class="form-label small fw-bold text-muted">Buscar por DNI o Nombre</label>
-                                    <input type="text" id="filtroPaciente" class="form-control mb-2" placeholder="Escriba el DNI para filtrar la lista..." onkeyup="filtrarPacientes()">
-                                        {% for p in pacientes %}
-                                        <option value="{{ p.id }}">DNI: {{ p.DNI }} - {{ p.apellido }}, {{ p.nombre }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="mb-4">
-                            <label class="form-label fw-bold"><i class="material-icons align-middle fs-5">picture_as_pdf</i> Informe Completo (PDF)</label>
-                            <input type="file" name="resultado" class="form-control" accept="application/pdf" required>
-                            <div class="form-text">El informe PDF es obligatorio para el archivo histórico.</div>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow">
-                                <span class="material-icons align-middle me-1">save</span> Guardar y Validar Resultados
-                            </button>
+                        {{ form.as_p }}
+                        <hr>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-info">Cargar Resultado</button>
+                            <a href="{% url 'home' %}" class="btn btn-link">Cancelar</a>
                         </div>
                     </form>
                 </div>
@@ -48,34 +23,4 @@
         </div>
     </div>
 </div>
-
-<script>
-function filtrarPacientes() {
-    var input, filter, select, option, i;
-    input = document.getElementById("filtroPaciente");
-    filter = input.value.toUpperCase();
-    select = document.getElementById("selectPaciente");
-    option = select.getElementsByTagName("option");
-
-    for (i = 0; i < option.length; i++) {
-        txtValue = option[i].text;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            option[i].style.display = "";
-        } else {
-            option[i].style.display = "none";
-        }
-    }
-}
-</script>
-
-<style>
-    /* Estilo para que el select parezca una lista de búsqueda */
-    #selectPaciente {
-        overflow-y: auto;
-    }
-    .form-control:focus, .form-select:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.1);
-    }
-</style>
 {% endblock %}
