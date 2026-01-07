@@ -15,11 +15,14 @@
     <div class="card shadow-sm mb-4 border-0">
         <div class="card-body bg-light">
             <h5 class="fw-bold mb-3">Buscar Historia Clínica</h5>
-            <div class="input-group">
+            <form action="{% url 'lista_pacientes' %}" method="GET" class="input-group">
                 <span class="input-group-text bg-white"><span class="material-icons text-muted">search</span></span>
-                <input type="text" id="busquedaDNI" class="form-control" placeholder="Ingrese DNI para ver resultados del paciente...">
-                <button class="btn btn-primary" onclick="buscarHistoria()">Ver Resultados</button>
-            </div>
+                <input type="text" name="dni" class="form-control" placeholder="Ingrese DNI para buscar..." value="{{ request.GET.dni }}">
+                <button type="submit" class="btn btn-primary">Ver Resultados</button>
+                {% if request.GET.dni %}
+                    <a href="{% url 'lista_pacientes' %}" class="btn btn-outline-secondary">Limpiar</a>
+                {% endif %}
+            </form>
         </div>
     </div>
 
@@ -30,7 +33,7 @@
                     <th>Nombre y Apellido</th>
                     <th>DNI</th>
                     <th>Contacto</th>
-                    <th class="text-center">Detalles</th>
+                    <th class="text-center">Acciones</th>
                 </tr>
             </thead>
             <tbody id="tablaPacientes">
@@ -40,19 +43,14 @@
                     <td>{{ p.DNI }}</td>
                     <td>{{ p.email }}</td>
                     <td class="text-center">
-                        <button class="btn btn-sm btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#detalle{{ p.DNI }}">
-                            Ver más
-                        </button>
+                        <a href="{% url 'detalle_paciente' p.id %}" class="btn btn-sm btn-info text-white">
+                            <span class="material-icons style='font-size: 16px; vertical-align: middle;'>history</span> Historia Clínica
+                        </a>
                     </td>
                 </tr>
-                <tr class="collapse" id="detalle{{ p.DNI }}">
-                    <td colspan="4" class="bg-light p-3">
-                        <div class="row">
-                            <div class="col-md-4"><strong>Teléfono:</strong> {{ p.telefono }}</div>
-                            <div class="col-md-4"><strong>Fecha Nacimiento:</strong> {{ p.fecha_nacimiento|date:"d/m/Y" }}</div>
-                            <div class="col-md-4"><strong>Fecha de Registro:</strong> {{ p.fecha_registro|date:"d/m/Y" }}</div>
-                        </div>
-                    </td>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center p-4">No se encontraron pacientes registrados.</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -65,56 +63,84 @@
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title">Registrar Nuevo Paciente</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-target="#modalRegistro" data-bs-toggle="modal"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="{% url 'registrar_paciente' %}" method="POST">
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label">Nombre</label>
+                            <label class="form-label fw-bold">Nombre</label>
                             <input type="text" name="nombre" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Apellido</label>
+                            <label class="form-label fw-bold">Apellido</label>
                             <input type="text" name="apellido" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">DNI</label>
+                            <label class="form-label fw-bold">DNI</label>
                             <input type="text" name="DNI" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Email</label>
+                            <label class="form-label
+    fw-bold">Email</label>
                             <input type="email" name="email" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Teléfono</label>
-                            <input type="text" name="telefono" class="form-control" required>
+                            <label class="form-label
+    fw-bold">Teléfono</label>
+                            <input type="text" name="telefono" class="form-control">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Fecha de Nacimiento</label>
-                            <input type="date" name="fecha_nacimiento" class="form-control" required>
+                            <label class="form-label fw-bold">Fecha de Nacimiento</label>
+                            <input type="date" name="fecha_nacimiento" class="form-control">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Paciente</button>
+                    <button type="submit" class="btn btn-primary">Registrar Paciente</button>
                 </div>
-            </form>
+            </form> 
         </div>
     </div>
 </div>
-
 <script>
-    // Función para redirigir a la historia clínica según el DNI ingresado
-    function buscarHistoria() {
-        const dni = document.getElementById('busquedaDNI').value;
-        if(dni) {
-            window.location.href = "{% url 'historia_clinica' %}?dni=" + dni;
-        } else {
-            alert("Por favor ingrese un DNI");
+    function filtrarPacientes() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("filtroPaciente");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tablaPacientes");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            tdNombre = tr[i].getElementsByTagName("td")[0];
+            tdDNI = tr[i].getElementsByTagName("td")[1];
+            if (tdNombre || tdDNI) {
+                txtValueNombre = tdNombre.textContent || tdNombre.innerText;
+                txtValueDNI = tdDNI.textContent || tdDNI.innerText;
+                if (txtValueNombre.toUpperCase().indexOf(filter) > -1 || txtValueDNI.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }       
         }
     }
 </script>
+    .modal-header {
+        border-bottom: none;
+    }       
+</script>
+<style>
+    .btn-close {
+        background: none;
+        border: none;
+    }
+    .modal-footer {
+        border-top: none;
+    }
+</style>    
 {% endblock %}
+
+{% block extra_scripts %}

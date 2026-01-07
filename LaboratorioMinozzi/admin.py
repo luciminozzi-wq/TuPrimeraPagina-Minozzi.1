@@ -13,3 +13,4 @@ class EstudioAdmin(admin.ModelAdmin):
 @admin.register(ResultadosdeEstudios)
 class ResultadoAdmin(admin.ModelAdmin):
     list_display = ('paciente', 'estudio', 'fecha_estudio', 'bioquimico_responsable')
+    search_fields = ('paciente__apellido', 'paciente__DNI')
