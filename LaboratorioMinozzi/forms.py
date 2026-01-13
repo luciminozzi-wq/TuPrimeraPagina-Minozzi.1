@@ -4,7 +4,6 @@ from .models import Pacientes, EstudiosDisponibles, ResultadosdeEstudios
 class PacienteForm(forms.ModelForm):
     class Meta:
         model = Pacientes
-        # Agregué los campos exactos de tu modelo Pacientes
         fields = ['nombre', 'apellido', 'fecha_nacimiento', 'email', 'telefono', 'DNI']
         widgets = {
             'fecha_nacimiento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
@@ -28,15 +27,20 @@ class EstudioForm(forms.ModelForm):
 class ResultadoForm(forms.ModelForm):
     class Meta:
         model = ResultadosdeEstudios
-        # Campos corregidos según tu models.py
         fields = ['paciente', 'estudio', 'fecha_estudio', 'resultado', 'bioquimico_responsable']
         widgets = {
-            'paciente': forms.Select(attrs={'class': 'form-control'}),
-            'estudio': forms.Select(attrs={'class': 'form-control'}),
+            'paciente': forms.Select(attrs={'class': 'form-select'}),
+            'estudio': forms.Select(attrs={'class': 'form-select'}),
             'fecha_estudio': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
             'resultado': forms.FileInput(attrs={'class': 'form-control'}),
             'bioquimico_responsable': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Esto personaliza el texto dentro del select para que veas el DNI
+        self.fields['paciente'].label_from_instance = lambda obj: f"{obj.DNI} - {obj.nombre} {obj.apellido}"
+        self.fields['estudio'].label_from_instance = lambda obj: f"{obj.nombre}"
 
 class historiaClinicaForm(forms.ModelForm):
     class Meta:

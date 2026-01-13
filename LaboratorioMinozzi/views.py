@@ -52,6 +52,7 @@ def subir_resultado(request):
         form = ResultadoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "Resultado cargado y vinculado a la historia clínica.")
             return render(request, "LaboratoriodeAnalisisClinicosMinozzi/subir_resultado_exito.html")
     else:
         form = ResultadoForm()
@@ -63,7 +64,7 @@ def historia_clinica(request):
         form = historiaClinicaForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, "Historial guardado con éxito.")
+            messages.success(request, "Entrada de historial guardada.")
             return redirect('historia_clinica')
     else:
         form = historiaClinicaForm()
