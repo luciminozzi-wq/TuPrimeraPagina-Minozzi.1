@@ -1,0 +1,109 @@
+{% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4 mb-5" id="area-imprimible">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+        <div>
+            <h2 class="text-primary mb-0">Ficha del Paciente</h2>
+            <p class="text-muted mb-0">Laboratorio de Análisis Clínicos Minozzi</p>
+        </div>
+        <div class="d-print-none">
+            <button onclick="window.print();" class="btn btn-outline-primary d-flex align-items-center">
+                <i class="material-icons me-2">print</i> Imprimir Ficha
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">Datos del Paciente</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="text-muted small d-block">Apellido y Nombre</label>
+                        <span class="fw-bold fs-5">{{ paciente.apellido }}, {{ paciente.nombre }}</span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small d-block">DNI</label>
+                        <span class="fw-bold">{{ paciente.DNI }}</span>
+                    </div>
+                    <div class="mb-0">
+                        <label class="text-muted small d-block">Email de contacto</label>
+                        <span>{{ paciente.email|default:"No registrado" }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0 text-primary">Historial de Análisis</h6>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="ps-3">Fecha</th>
+                                    <th>Estudios Realizados</th>
+                                    <th>Bioquímico</th>
+                                    <th class="text-center d-print-none">Protocolo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for resultado in resultados %}
+                                <tr>
+                                    <td class="ps-3">{{ resultado.fecha_estudio|date:"d/m/Y" }}</td>
+                                    <td>
+                                        {% for e in resultado.estudio.all %}
+                                            <span class="badge rounded-pill bg-info bg-opacity-10 text-dark border px-2 mb-1">
+                                                {{ e.nombre }}
+                                            </span>
+                                        {% endfor %}
+                                    </td>
+                                    <td class="small">{{ resultado.bioquimico_responsable }}</td>
+                                    <td class="text-center d-print-none">
+                                        {% if resultado.resultado %}
+                                            <a href="{{ resultado.resultado.url }}" target="_blank" class="text-danger">
+                                                <i class="material-icons">picture_as_pdf</i>
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center py-4 text-muted">No hay estudios cargados.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @media print {
+        .d-print-none, .navbar, footer, .btn {
+            display: none !important;
+        }
+        body {
+            background-color: white !important;
+        }
+        .card {
+            border: 1px solid #dee2e6 !important;
+            box-shadow: none !important;
+        }
+        .container {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+    }
+</style>
+{% endblock %}

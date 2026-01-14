@@ -22,12 +22,13 @@ class Pacientes(models.Model):
 
 class ResultadosdeEstudios(models.Model):
     paciente = models.ForeignKey(Pacientes, on_delete=models.CASCADE)
-    estudio = models.ForeignKey(EstudiosDisponibles, on_delete=models.CASCADE)
-    fecha_estudio = models.DateTimeField()
-    resultado = models.FileField(upload_to='resultados_pdfs/')
-    fecha_resultado = models.DateTimeField(auto_now_add=True)
+    estudio = models.ManyToManyField(EstudiosDisponibles)
+    fecha_estudio = models.DateField()
     bioquimico_responsable = models.CharField(max_length=100)
+    resultado = models.FileField(upload_to='resultados/')
+    fecha_resultado = models.DateField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
-        return f"Resultado: {self.estudio.nombre} - Paciente: {self.paciente.DNI}"
+        return f"Resultado {self.paciente.apellido} - {self.fecha_estudio}"
+    
     

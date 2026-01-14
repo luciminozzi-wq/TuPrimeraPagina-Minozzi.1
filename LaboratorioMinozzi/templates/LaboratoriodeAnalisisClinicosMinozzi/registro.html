@@ -1,0 +1,27 @@
+{% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow border-0">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4 class="mb-0">Registrar Nuevo Trabajador</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST"> {% csrf_token %} <div class="alert alert-info">
+                            <small>Use este formulario solo para dar de alta personal del laboratorio.</small>
+                        </div>
+
+                        {{ form.as_p }}
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-dark btn-lg">Crear Cuenta de Personal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

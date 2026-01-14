@@ -1,25 +1,68 @@
-{% extends "LaboratoriodeAnalisisClinicosMinozzi/base.html" %}
+{% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
 
 {% block content %}
 <div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow">
-                <div class="card-header bg-info text-white">
-                    <h3 class="card-title mb-0">Subir Resultado de Estudio</h3>
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body bg-light">
+            <h5 class="text-primary"><i class="bi bi-search"></i> Localizar Paciente</h5>
+            <form method="GET" class="row g-2">
+                <div class="col-md-10">
+                    <input type="text" name="dni_paciente" class="form-control" placeholder="Ingrese DNI o Apellido">
                 </div>
-                <div class="card-body">
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <hr>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-info">Cargar Resultado</button>
-                            <a href="{% url 'home' %}" class="btn btn-link">Cancelar</a>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                </div>
+            </form>
+            {% if paciente_encontrado %}
+                <div class="alert alert-info mt-3 mb-0">
+                    <strong>Paciente:</strong> {{ paciente_encontrado.apellido }}, {{ paciente_encontrado.nombre }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white py-3">
+            <h4 class="mb-0 text-center">Protocolo de Análisis Clínicos</h4>
+        </div>
+        <div class="card-body p-4">
+            {% if not paciente_encontrado %}
+                <p class="text-center text-muted">Por favor, busque un paciente arriba para comenzar.</p>
+            {% else %}
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.paciente }} <div class="row">
+                        <div class="col-md-5 border-end">
+                            <label class="fw-bold mb-2">Datos del Informe</label>
+                            <div class="mb-3">
+                                <label class="small">Fecha de Estudio</label>
+                                {{ form.fecha_estudio }}
+                            </div>
+                            <div class="mb-3">
+                                <label class="small">Bioquímico a Cargo</label>
+                                {{ form.bioquimico_responsable }}
+                            </div>
+                            <div class="mb-3">
+                                <label class="small text-danger">Adjuntar Resultado (PDF)</label>
+                                {{ form.resultado }}
+                            </div>
                         </div>
-                    </form>
-                </div>
-            </div>
+
+                        <div class="col-md-7 ps-4">
+                            <label class="fw-bold mb-2 text-primary">Estudios a incluir:</label>
+                            <p class="x-small text-muted">Mantenga <b>Ctrl</b> para seleccionar varios.</p>
+                            {{ form.estudio }}
+                            {% if form.estudio.errors %}
+                                <div class="text-danger small">{{ form.estudio.errors }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg px-5 shadow-sm">Guardar Protocolo</button>
+                    </div>
+                </form>
+            {% endif %}
         </div>
     </div>
 </div>

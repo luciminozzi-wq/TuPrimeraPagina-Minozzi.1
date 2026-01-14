@@ -1,0 +1,86 @@
+{% extends 'LaboratoriodeAnalisisClinicosMinozzi/base.html' %}
+
+{% block title %}Ingreso Personal - Laboratorio Minozzi{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow border-0">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0">
+                        <i class="material-icons align-middle">lock</i> 
+                        Ingreso Personal
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error:</strong> Usuario o contraseña incorrectos.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            {{ form.as_p }}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Ingresar al Sistema
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center bg-light py-3">
+                    <p class="mb-0 small text-muted">
+                        ¿Sos personal nuevo? 
+                        <a href="{% url 'registro' %}" class="text-primary fw-bold text-decoration-none">Registrate acá</a>
+                    </p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-3">
+                <a href="{% url 'home' %}" class="text-muted small">
+                    <i class="material-icons align-middle fs-6">arrow_back</i> Volver al inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Mejora visual para los inputs que genera Django automáticamente */
+    form p label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color: #495057;
+    }
+    form p input {
+        display: block;
+        width: 100%;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #212529;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    form p input:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    form p {
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}

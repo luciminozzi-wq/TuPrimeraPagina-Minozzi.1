@@ -1,5 +1,7 @@
 from django import forms
 from .models import Pacientes, EstudiosDisponibles, ResultadosdeEstudios
+from django.contrib.auth.forms import UserCreationForm 
+from django.contrib.auth.models import User
 
 class PacienteForm(forms.ModelForm):
     class Meta:
@@ -24,30 +26,39 @@ class EstudioForm(forms.ModelForm):
             'precio': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
-class ResultadoForm(forms.ModelForm):
+class ResultadoEstudioForm(forms.ModelForm):
+    paciente = forms.ModelChoiceField(
+        queryset=Pacientes.objects.all(),
+        widget=forms.HiddenInput()
+    )
+
     class Meta:
         model = ResultadosdeEstudios
-        fields = ['paciente', 'estudio', 'fecha_estudio', 'resultado', 'bioquimico_responsable']
+        fields = ['paciente', 'estudio', 'fecha_estudio', 'bioquimico_responsable', 'resultado']
+        widgets = {
+            'estudio': forms.SelectMultiple(attrs={
+                'class': 'form-select select-multiple-custom',
+                'size': '8'
+            }),
+            'fecha_estudio': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'bioquimico_responsable': forms.TextInput(attrs={'class': 'form-control'}),
+            'resultado': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+class RegistroUsuarioForm(UserCreationForm):
+    email = forms.EmailField(required=True, label="Correo Electrónico")
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+class historiaClinicaForm(forms.ModelForm): 
+    class Meta:
+        model = ResultadosdeEstudios
+        fields = '__all__'
         widgets = {
             'paciente': forms.Select(attrs={'class': 'form-select'}),
             'estudio': forms.Select(attrs={'class': 'form-select'}),
-            'fecha_estudio': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}),
-            'resultado': forms.FileInput(attrs={'class': 'form-control'}),
+            'fecha_estudio': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'bioquimico_responsable': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Esto personaliza el texto dentro del select para que veas el DNI
-        self.fields['paciente'].label_from_instance = lambda obj: f"{obj.DNI} - {obj.nombre} {obj.apellido}"
-        self.fields['estudio'].label_from_instance = lambda obj: f"{obj.nombre}"
-
-class historiaClinicaForm(forms.ModelForm):
-    class Meta:
-        model = Pacientes
-        fields = ['nombre', 'apellido', 'DNI']
-        widgets = {
-            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-            'apellido': forms.TextInput(attrs={'class': 'form-control'}),
-            'DNI': forms.TextInput(attrs={'class': 'form-control'}),
+            'resultado': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }

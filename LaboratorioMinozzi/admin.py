@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Pacientes, EstudiosDisponibles, ResultadosdeEstudios
+from .models import ResultadosdeEstudios
 
 @admin.register(Pacientes)
 class PacienteAdmin(admin.ModelAdmin):
@@ -12,5 +13,7 @@ class EstudioAdmin(admin.ModelAdmin):
 
 @admin.register(ResultadosdeEstudios)
 class ResultadoAdmin(admin.ModelAdmin):
-    list_display = ('paciente', 'estudio', 'fecha_estudio', 'bioquimico_responsable')
-    search_fields = ('paciente__apellido', 'paciente__DNI')
+    list_display = ('paciente', 'mostrar_estudios', 'fecha_estudio', 'bioquimico_responsable')
+    def mostrar_estudios(self, obj):
+        return ", ".join([e.nombre for e in obj.estudio.all()])
+    mostrar_estudios.short_description = 'Estudios Realizados'

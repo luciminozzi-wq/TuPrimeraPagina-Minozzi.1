@@ -11,9 +11,11 @@
         :root { --med-blue: #004a99; --med-dark: #003a7a; }
         body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; display: flex; flex-direction: column; min-height: 100vh; }
         .navbar { background-color: var(--med-blue) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .logo-img { height: 40px; margin-right: 10px; } /* Ajusta el tamaño de tu logo */
-        main { flex-grow: 1; } /* Asegura que el contenido ocupe el espacio */
+        .logo-img { height: 40px; margin-right: 10px; }
+        main { flex-grow: 1; }
         footer { background-color: var(--med-dark); color: white; padding: 20px 0; font-size: 0.9em; }
+        /* Estilo para destacar el área de personal */
+        .nav-staff { border-left: 1px solid rgba(255,255,255,0.2); margin-left: 10px; padding-left: 10px; }
     </style>
 </head>
 <body>
@@ -21,46 +23,71 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-                <img src="{% static 'img/logo.png' %}" alt="Logo Laboratorio Minozzi" class="logo-img">
+                <img src="{% static 'img/logo.png' %}" alt="Logo Laboratorio" class="logo-img">
                 <strong>LABORATORIO MINOZZI</strong>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_estudios' %}">Estudios</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'lista_pacientes' %}">Pacientes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'subir_resultado' %}">Cargar Resultados</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                    
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'lista_estudios' %}">Estudios</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'lista_pacientes' %}">Pacientes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'subir_resultado' %}">Cargar Resultados</a></li>
+                        
+                        <div class="nav-staff d-flex align-items-center">
+                            <li class="nav-item">
+                                <a class="nav-link fw-bold text-warning" href="{% url 'profile_detail' %}">
+                                    <i class="material-icons align-middle fs-5">account_circle</i> {{ user.username }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <form action="{% url 'logout' %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-light ms-2">Salir</button>
+                                </form>
+                            </li>
+                        </div>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                        <li class="nav-item ms-lg-3">
+                            <a class="btn btn-light btn-sm text-primary fw-bold" href="{% url 'login' %}">Ingreso Personal</a>
+                        </li>
+                        <li class="nav-item ms-2">
+                            <a class="btn btn-outline-light btn-sm" href="{% url 'registro' %}">Registrar Nuevo Trabajador</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container mt-2">
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
-    {% endif %}
-</div>
+    <div class="container mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
     <main class="py-4">
-        {% block content %}
-        {% endblock %}
+        {% block content %}{% endblock %}
     </main>
 
     <footer class="text-center">
         <div class="container">
-            <p class="mb-0">Laboratorio Minozzi &copy; 2025 - Todos los derechos reservados.</p>
-            <p class="mb-0">Dirección: Calle Falsa 123, Ciudad - Tel: (123) 456-7890 - Email: info@labminozzi.com</p>
+            <p class="mb-0">Laboratorio Minozzi &copy; 2025 - Área Exclusiva para Personal Autorizado.</p>
+            <p class="mb-0">Contacto:
+                <a href="mailto:contacto@laboratoriominozzi.com">contacto@laboratoriominozzi.com</a>
+            </p>
         </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
