@@ -16,24 +16,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
+    # Panel de administración
     path('admin/', admin.site.urls),
-    path("", include("LaboratorioMinozzi.urls")),
-    path("detalle_paciente/", include("LaboratorioMinozzi.urls")),
-    path("subir_resultado/", include("LaboratorioMinozzi.urls")),
-    path("lista_estudios/", include("LaboratorioMinozzi.urls")),
-]
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings # Importa settings
-from django.conf.urls.static import static # Importa static
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
+    
+    # Esta línea conecta todas las rutas de tu app LaboratorioMinozzi
     path('', include('LaboratorioMinozzi.urls')),
-]
+    
+] 
 
+# Configuración para ver imágenes y archivos en modo desarrollo
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

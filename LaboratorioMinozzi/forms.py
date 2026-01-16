@@ -2,6 +2,7 @@ from django import forms
 from .models import Pacientes, EstudiosDisponibles, ResultadosdeEstudios
 from django.contrib.auth.forms import UserCreationForm 
 from django.contrib.auth.models import User
+from .models import Perfil
 
 class PacienteForm(forms.ModelForm):
     class Meta:
@@ -62,3 +63,7 @@ class historiaClinicaForm(forms.ModelForm):
             'bioquimico_responsable': forms.TextInput(attrs={'class': 'form-control'}),
             'resultado': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+class PerfilForm(forms.ModelForm):
+    class Meta:
+        model = Perfil
+        fields = ['avatar', 'biografia']

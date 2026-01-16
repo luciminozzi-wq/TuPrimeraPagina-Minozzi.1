@@ -123,25 +123,28 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import os
+import os # Asegúrate de tener este import al inicio del archivo
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-import os
-
-
+# Archivos Estáticos (CSS, JS, Imágenes del diseño)
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'LaboratorioMinozzi/static'),
 ]
 
+# Archivos Media (Subidas de usuarios: Avatares y PDFs)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Redirecciones de Login
 LOGIN_REDIRECT_URL = 'home'  
 LOGOUT_REDIRECT_URL = 'home' 
-LOGIN_URL = 'login'          
+LOGIN_URL = 'login'
 
-import os
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Configuración de Email (Para enviar resultados automáticamente)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'tu-email@gmail.com'  # Cambiar por el tuyo
+EMAIL_HOST_PASSWORD = 'tu-clave-de-aplicacion'  # Cambiar por clave de aplicación
+DEFAULT_FROM_EMAIL = 'Laboratorio Minozzi <tu-email@gmail.com>'
