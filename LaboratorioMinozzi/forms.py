@@ -2,20 +2,20 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from .models import Pacientes, EstudiosDisponibles, ResultadosdeEstudios, Perfil
+from .models import Pacientes
 
 # --- FORMULARIOS DE NEGOCIO ---
 
 class PacienteForm(forms.ModelForm):
     class Meta:
         model = Pacientes
-        fields = ['nombre', 'apellido', 'fecha_nacimiento', 'email', 'telefono', 'DNI']
+        # Asegúrate de que los nombres aquí coincidan con models.py
+        fields = ['nombre', 'apellido', 'dni', 'email', 'fecha_nacimiento', 'foto']
+        
+        # Si tenías widgets para 'telefono' o 'DNI', bórralos o cámbialos:
         widgets = {
-            'fecha_nacimiento': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
-            'apellido': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
-            'DNI': forms.TextInput(attrs={'class': 'form-control'}),
+            'fecha_nacimiento': forms.DateInput(attrs={'type': 'date'}),
+            'dni': forms.NumberInput(attrs={'placeholder': 'Ingrese DNI sin puntos'}),
         }
 
 class EstudioForm(forms.ModelForm):
@@ -94,3 +94,4 @@ class PasswordChangeWithCodeForm(PasswordChangeForm):
         label="Código de Verificación",
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce el código de 6 dígitos'})
     )
+

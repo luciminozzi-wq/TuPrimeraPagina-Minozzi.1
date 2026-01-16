@@ -1,0 +1,28 @@
+{% extends "LaboratoriodeAnalisisClinicosMinozzi/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-danger shadow">
+                <div class="card-body text-center p-5">
+                    <i class="material-icons text-danger fs-1 mb-3">warning</i>
+                    <h2 class="fw-bold">¿Eliminar registro?</h2>
+                    <p class="text-muted">Estás a punto de eliminar al paciente: <br>
+                       <strong class="text-dark">{{ object.nombre }} {{ object.apellido }}</strong>
+                    </p>
+                    <hr>
+                    <form method="post">
+                        {% csrf_token %}
+                        <p class="small text-danger">Esta acción no se puede deshacer.</p>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger py-2">Sí, eliminar definitivamente</button>
+                            <a href="{% url 'lista_pacientes' %}" class="btn btn-light">Cancelar y volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

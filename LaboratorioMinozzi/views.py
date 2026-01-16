@@ -8,7 +8,9 @@ from django.views.generic import ListView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import EmailMessage, send_mail
 from django.conf import settings
-
+from django.views.generic.edit import UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 # Importación de modelos
 from LaboratorioMinozzi.models import EstudiosDisponibles, Pacientes, ResultadosdeEstudios, Perfil
 
@@ -224,3 +226,20 @@ def historia_clinica(request):
         'pacientes': pacientes,
         'form': form
     })
+# --- VISTAS DE EDICIÓN Y BORRADO (CORREGIDAS) ---
+
+class PacienteUpdateView(LoginRequiredMixin, UpdateView):
+    model = Pacientes
+    # Usamos los mismos campos que en tu modelo
+    fields = ['nombre', 'apellido', 'dni', 'email', 'fecha_nacimiento', 'foto']
+    # Corregimos la ruta para que coincida con tu carpeta larga
+    template_name = 'LaboratoriodeAnalisisClinicosMinozzi/paciente_form.html'
+    # Corregimos el nombre del redirect para que coincida con tu urls.py
+    success_url = reverse_lazy('lista_pacientes') 
+
+class PacienteDeleteView(LoginRequiredMixin, DeleteView):
+    model = Pacientes
+    # Corregimos la ruta para que coincida con tu carpeta larga
+    template_name = 'LaboratoriodeAnalisisClinicosMinozzi/paciente_confirm_delete.html'
+    # Corregimos el nombre del redirect para que coincida con tu urls.py
+    success_url = reverse_lazy('lista_pacientes')

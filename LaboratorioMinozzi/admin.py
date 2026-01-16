@@ -4,8 +4,8 @@ from .models import ResultadosdeEstudios
 
 @admin.register(Pacientes)
 class PacienteAdmin(admin.ModelAdmin):
-    list_display = ('apellido', 'nombre', 'DNI', 'email')
-    search_fields = ('apellido', 'DNI')
+    list_display = ('apellido', 'nombre', 'dni', 'email')
+    search_fields = ('apellido', 'dni')
 
 @admin.register(EstudiosDisponibles)
 class EstudioAdmin(admin.ModelAdmin):

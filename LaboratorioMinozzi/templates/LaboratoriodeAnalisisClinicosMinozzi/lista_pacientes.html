@@ -2,47 +2,64 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Gestión de Pacientes</h2>
+    <h2 class="mb-4">Gestión de Pacientes</h2>
     
     <form method="GET" class="mb-4">
-        <div class="input-group">
+        <div class="input-group shadow-sm">
             <input type="text" name="dni" class="form-control" placeholder="Buscar por DNI..." value="{{ request.GET.dni }}">
-            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-search"></i> Buscar
+            </button>
         </div>
     </form>
 
     <div class="row">
         <div class="col-md-4">
-            <h4>Registrar Nuevo</h4>
-            <form method="POST" action="{% url 'registrar_paciente' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary w-100">Registrar Paciente</button>
-            </form>
+            <div class="card shadow-sm border-0 p-3">
+                <h4>Registrar Nuevo</h4>
+                <hr>
+                <form method="POST" action="{% url 'registrar_paciente' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success w-100">Registrar Paciente</button>
+                </form>
+            </div>
         </div>
 
         <div class="col-md-8">
-            <h4>Listado</h4>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>DNI</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for paciente in pacientes %}
-                    <tr>
-                        <td>{{ paciente.nombre }} {{ paciente.apellido }}</td>
-                        <td>{{ paciente.DNI }}</td>
-                        <td>
-                            <a href="{% url 'detalle_paciente' paciente.id %}" class="btn btn-sm btn-info">Ver Detalle</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <div class="card shadow-sm border-0 p-3">
+                <h4>Listado de Pacientes</h4>
+                <table class="table table-hover mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>DNI</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for paciente in pacientes %}
+                        <tr>
+                            <td class="align-middle">{{ paciente.nombre }} {{ paciente.apellido }}</td>
+                            <td class="align-middle">{{ paciente.dni }}</td> <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'detalle_paciente' paciente.id %}" class="btn btn-sm btn-info text-white" title="Ver">Ver</a>
+                                    
+                                    <a href="{% url 'paciente_editar' paciente.id %}" class="btn btn-sm btn-warning" title="Editar">Editar</a>
+                                    <a href="{% url 'paciente_borrar' paciente.id %}" class="btn btn-sm btn-danger" title="Borrar">Borrar</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="text-center text-muted py-4">
+                                No se encontraron pacientes registrados.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -12,18 +12,15 @@ class EstudiosDisponibles(models.Model):
         return self.nombre
 
 class Pacientes(models.Model):
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
-    fecha_nacimiento = models.DateField()
+    nombre = models.CharField(max_length=50) # CharField 1
+    apellido = models.CharField(max_length=50) # CharField 2
+    dni = models.IntegerField(unique=True) # Integer Unique
     email = models.EmailField()
-    telefono = models.CharField(max_length=15)
-    
-    DNI = models.IntegerField(unique=True) 
-    
-    fecha_registro = models.DateTimeField(auto_now_add=True)
+    fecha_nacimiento = models.DateField() # Campo de Fecha
+    foto = models.ImageField(upload_to='pacientes/', null=True, blank=True) # Campo de Imagen
 
     def __str__(self):
-        return f"{self.DNI} - {self.nombre} {self.apellido}"
+        return f"{self.apellido}, {self.nombre}"
 
 class ResultadosdeEstudios(models.Model):
     paciente = models.ForeignKey(Pacientes, on_delete=models.CASCADE)
