@@ -18,17 +18,18 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from LaboratorioMinozzi import views as laboratorio_views # Importamos tus vistas con un nombre distinto
 
 urlpatterns = [
-    # Panel de administración
     path('admin/', admin.site.urls),
     
-    # Esta línea conecta todas las rutas de tu app LaboratorioMinozzi
-    path('', include('LaboratorioMinozzi.urls')),
+    # Usamos 'laboratorio_views' para que Django sepa que debe buscar en TU views.py
+    path('accounts/password_change/', laboratorio_views.cambiar_password_seguro, name='password_change'),
     
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('LaboratorioMinozzi.urls')),   
 ] 
 
-# Configuración para ver imágenes y archivos en modo desarrollo
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

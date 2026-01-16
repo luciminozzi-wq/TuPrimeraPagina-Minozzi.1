@@ -1,0 +1,68 @@
+{% extends "LaboratoriodeAnalisisClinicosMinozzi/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+                
+                <div class="p-5 text-white text-center" style="background: linear-gradient(135deg, var(--med-blue), var(--med-dark));">
+                    <h1 class="display-5 fw-bold mb-0">Acerca de Mí</h1>
+                    <p class="opacity-75 lead">Conoce más sobre la profesional detrás de este sistema</p>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    <div class="row align-items-center">
+                        
+                        <div class="col-md-4 text-center mb-4 mb-md-0">
+                            <div class="position-relative d-inline-block">
+                                {% if user.perfil.avatar %}
+                                    <img src="{{ user.perfil.avatar.url }}" alt="Lucila Minozzi" class="rounded-circle shadow" style="width: 220px; height: 220px; object-fit: cover; border: 5px solid #fff;">
+                                {% else %}
+                                    <img src="{% static 'img/tu_foto.jpg' %}" alt="Lucila Minozzi" class="rounded-circle shadow" style="width: 220px; height: 220px; object-fit: cover; border: 5px solid #fff;">
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <h2 style="color: var(--med-blue);" class="fw-bold">Lucila Minozzi</h2>
+                            <p class="text-primary fw-bold mb-3">Desarrolladora Python / Django</p>
+                            
+                            <p class="text-muted" style="line-height: 1.8; text-align: justify;">
+                                Este sistema fue diseñado para modernizar la gestión operativa del <strong>Laboratorio Minozzi</strong>. 
+                                A través de esta plataforma, el personal autorizado puede administrar el flujo completo de atención: 
+                                desde el registro de pacientes hasta la carga y distribución de resultados clínicos.
+                            </p>
+                            
+                            <p class="text-muted" style="line-height: 1.8; text-align: justify;">
+                                El proyecto destaca por su enfoque en la seguridad de los datos y la escalabilidad, utilizando 
+                                <strong>Django</strong> como framework principal para garantizar un entorno robusto, profesional y eficiente.
+                            </p>
+
+                            <div class="mt-4">
+                                <h6 class="fw-bold text-dark small text-uppercase mb-3">Tecnologías Implementadas:</h6>
+                                <span class="badge rounded-pill px-3 py-2 me-1" style="background-color: var(--med-blue);">Python</span>
+                                <span class="badge rounded-pill px-3 py-2 me-1" style="background-color: var(--med-blue);">Django 5.0</span>
+                                <span class="badge rounded-pill px-3 py-2 me-1" style="background-color: var(--med-blue);">Bootstrap 5</span>
+                                <span class="badge rounded-pill px-3 py-2" style="background-color: var(--med-blue);">SQLite 3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-5 opacity-25">
+
+                    <div class="text-center">
+                        <a href="{% url 'home' %}" class="btn btn-primary px-5 py-2 shadow-sm" style="background-color: var(--med-blue); border-radius: 10px;">
+                            <i class="material-icons align-middle me-1">home</i> Volver al Inicio
+                        </a>
+                        <a href="mailto:contacto@laboratoriominozzi.com" class="btn btn-outline-secondary px-4 py-2 ms-2" style="border-radius: 10px;">
+                            Contactar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

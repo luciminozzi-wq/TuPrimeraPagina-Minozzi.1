@@ -1,0 +1,33 @@
+{% extends "LaboratoriodeAnalisisClinicosMinozzi/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card mx-auto shadow" style="max-width: 500px;">
+        <div class="card-body text-center">
+            <h2 class="mb-4">Perfil de Usuario</h2>
+            
+            {% if user.perfil.avatar %}
+                <img src="{{ user.perfil.avatar.url }}" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #0d6efd;">
+            {% else %}
+                <div class="bg-secondary rounded-circle d-inline-block mb-3" style="width: 150px; height: 150px; line-height: 150px; color: white; font-size: 50px;">
+                    {{ user.username|first|upper }}
+                </div>
+            {% endif %}
+
+            <ul class="list-group list-group-flush text-start">
+                <li class="list-group-item"><strong>Nombre:</strong> {{ user.first_name }}</li>
+                <li class="list-group-item"><strong>Apellido:</strong> {{ user.last_name }}</li>
+                <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+                <li class="list-group-item"><strong>Biografía:</strong> 
+                    <p class="text-muted">{{ user.perfil.biografia|default:"Sin biografía cargada." }}</p>
+                </li>
+            </ul>
+
+            <div class="mt-4">
+                <a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar Perfil</a>
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary">Volver</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

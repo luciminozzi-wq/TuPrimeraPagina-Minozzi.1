@@ -1,8 +1,9 @@
 from django import forms
-from .models import Pacientes, EstudiosDisponibles, ResultadosdeEstudios
-from django.contrib.auth.forms import UserCreationForm 
 from django.contrib.auth.models import User
-from .models import Perfil
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from .models import Pacientes, EstudiosDisponibles, ResultadosdeEstudios, Perfil
+
+# --- FORMULARIOS DE NEGOCIO ---
 
 class PacienteForm(forms.ModelForm):
     class Meta:
@@ -45,12 +46,6 @@ class ResultadoEstudioForm(forms.ModelForm):
             'bioquimico_responsable': forms.TextInput(attrs={'class': 'form-control'}),
             'resultado': forms.FileInput(attrs={'class': 'form-control'}),
         }
-class RegistroUsuarioForm(UserCreationForm):
-    email = forms.EmailField(required=True, label="Correo Electrónico")
-
-    class Meta:
-        model = User
-        fields = ['username', 'email']
 
 class historiaClinicaForm(forms.ModelForm): 
     class Meta:
@@ -63,7 +58,39 @@ class historiaClinicaForm(forms.ModelForm):
             'bioquimico_responsable': forms.TextInput(attrs={'class': 'form-control'}),
             'resultado': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
+
+# --- FORMULARIOS DE USUARIO Y PERFIL ---
+
+class RegistroUsuarioForm(UserCreationForm):
+    email = forms.EmailField(required=True, label="Correo Electrónico")
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = Perfil
         fields = ['avatar', 'biografia']
+        widgets = {
+            'biografia': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
+
+# --- FORMULARIO DE SEGURIDAD ---
+
+class PasswordChangeWithCodeForm(PasswordChangeForm):
+    codigo_verificacion = forms.CharField(
+        max_length=6, 
+        label="Código de Verificación",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Introduce el código de 6 dígitos'})
+    )

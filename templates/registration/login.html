@@ -1,0 +1,61 @@
+{% extends "LaboratoriodeAnalisisClinicosMinozzi/base.html" %}
+
+{% block title %}Ingreso Personal - Laboratorio Minozzi{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card border-0 shadow-lg" style="border-radius: 15px;">
+                <div class="card-header text-white text-center py-4" style="background-color: var(--med-blue); border-radius: 15px 15px 0 0;">
+                    <i class="material-icons fs-1">lock</i>
+                    <h3 class="fw-bold mb-0">Ingreso al Sistema</h3>
+                    <p class="small opacity-75">Área exclusiva para personal autorizado</p>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    
+                    {% if form.errors %}
+                        <div class="alert alert-danger small">
+                            Usuario o contraseña incorrectos. Por favor, intente de nuevo.
+                        </div>
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label text-secondary small fw-bold">Nombre de Usuario</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="material-icons fs-5 text-muted">person</i></span>
+                                <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username" class="form-control bg-light border-start-0">
+                            </div>
+                        </div>
+
+                        <div class="mb-2"> <label for="id_password" class="form-label text-secondary small fw-bold">Contraseña</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="material-icons fs-5 text-muted">key</i></span>
+                                <input type="password" name="password" autocomplete="current-password" required="" id="id_password" class="form-control bg-light border-start-0">
+                            </div>
+                        </div>
+
+                        <div class="text-end mb-4">
+                            <a href="{% url 'password_reset' %}" class="small text-decoration-none fw-bold" style="color: var(--med-blue);">
+                                ¿Olvidaste tu contraseña?
+                            </a>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary py-2 fw-bold" style="background-color: var(--med-blue); border-radius: 10px;">
+                                Iniciar Sesión
+                            </button>
+                            <a href="{% url 'home' %}" class="btn btn-link btn-sm text-decoration-none text-muted">Volver al inicio</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer bg-light text-center py-3 border-0" style="border-radius: 0 0 15px 15px;">
+                    <span class="small text-muted">¿No tienes cuenta? <a href="{% url 'registro' %}" class="text-primary fw-bold text-decoration-none">Regístrate aquí</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
