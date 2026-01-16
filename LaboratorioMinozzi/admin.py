@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Pacientes, EstudiosDisponibles, ResultadosdeEstudios
 from .models import ResultadosdeEstudios
+from .models import Perfil
 
 @admin.register(Pacientes)
 class PacienteAdmin(admin.ModelAdmin):
@@ -17,3 +18,7 @@ class ResultadoAdmin(admin.ModelAdmin):
     def mostrar_estudios(self, obj):
         return ", ".join([e.nombre for e in obj.estudio.all()])
     mostrar_estudios.short_description = 'Estudios Realizados'
+
+@admin.register(Perfil)
+class PerfilAdmin(admin.ModelAdmin):
+    list_display = ('user', 'biografia')

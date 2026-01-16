@@ -52,5 +52,3 @@ def crear_perfil(sender, instance, created, **kwargs):
 def guardar_perfil(sender, instance, **kwargs):
   if hasattr(instance, 'perfil'):  
     instance.perfil.save()
-post_save.connect(guardar_perfil, sender=User)
-post_save.connect(crear_perfil, sender=User)
