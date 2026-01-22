@@ -1,23 +1,44 @@
-🔬 Laboratorio de Análisis Clínicos Minozzi: 
-Este proyecto es una aplicación web desarrollada con Django bajo el patrón MVT (Modelo-Vista-Template), diseñada para gestionar la operativa básica de un laboratorio clínico.
+# Laboratorio de Análisis Clínicos Minozzi 🔬
+**Proyecto Final - Curso de Python | Coderhouse**
 
-✅ Guía de Pruebas (Orden sugerido)
-Para evaluar el funcionamiento del sistema, se recomienda seguir estos pasos:
-- Presentación: Explore la página de Inicio donde se presenta al staff profesional y las especialidades del laboratorio.
-- Gestión de Pacientes:
-    - Vaya a la sección "Pacientes".
-    - Haga clic en el botón verde "Registrar Nuevo Paciente" y complete el formulario (Nombre, Apellido, DNI, etc.).
-    - Verifique que el paciente aparezca en la lista desplegable.
-- Configuración de Estudios:
-    - Vaya a la sección "Estudios".
-    - Utilice el botón "Nuevo Análisis" para agregar un estudio al catálogo (ej. "Perfil Lipídico", "$5000").
-- Carga de Resultados:
-    - Vaya a "Cargar Resultados".
-    - Seleccione un paciente de la lista, el estudio realizado y suba un archivo de prueba en formato PDF.
-- Búsqueda en BD:
-    - Regrese a la sección de Pacientes.
-    - Utilice la barra de búsqueda ingresando el DNI del paciente registrado para filtrar la tabla y acceder a sus detalles.
+## 👩‍💻 Alumna
+* **Nombre:** Lucila Fernanda Minozzi
 
+## 📖 Descripción del Proyecto
+Este proyecto consiste en una plataforma web integral para la gestión de un **Laboratorio de Análisis Clínicos**. La aplicación permite administrar pacientes, gestionar el catálogo de estudios ofrecidos y cargar resultados de forma segura. 
+
+La plataforma cuenta con un sistema de usuarios diferenciado, donde los usuarios registrados pueden acceder a funcionalidades protegidas, gestionar su perfil personal y realizar búsquedas avanzadas en la base de datos.
+
+---
+
+## 🛠️ Tecnologías Utilizadas
+* **Python** (Lógica de programación)
+* **Django** (Framework Web)
+* **SQLite** (Base de datos)
+* **Bootstrap** (Diseño y estilos)
+* **HTML/CSS** (Estructura y plantillas)
+
+---
+
+## 🚀 Funcionalidades Principales (Checklist de Requisitos)
+
+### 1. Gestión de Modelos (CRUD)
+* **Pacientes:** Modelo principal con campos de texto, imagen (foto), fecha de nacimiento e **Integer con Unique=True (DNI)**.
+* **Estudios:** Catálogo de análisis disponibles.
+* **Resultados:** Relación entre pacientes y estudios con carga de archivos PDF/Imagen.
+
+### 2. Secciones del Sitio
+* **Home:** Vista de inicio con bienvenida.
+* **About:** Página dedicada a la información del dueño/desarrollador (`/about`).
+* **Buscador:** Filtrado de pacientes por DNI en tiempo real.
+
+### 3. Sistema de Cuentas y Seguridad
+* **Registro, Login y Logout:** Implementado para el manejo de sesiones.
+* **Perfil de Usuario:** Cada usuario posee un avatar y biografía personalizable.
+* **Cambio de Contraseña:** Sistema avanzado con validación de código de seguridad enviado por email.
+* **Protección de Rutas:** Uso de `LoginRequiredMixin` y decoradores `@login_required` para asegurar que solo usuarios autenticados puedan editar o borrar registros.
+
+---
 -Ingreso a Admin:
     - Usuario: admin
     - Contraseña: 1234567A.
